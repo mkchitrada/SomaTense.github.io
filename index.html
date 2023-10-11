@@ -29,15 +29,24 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
         button {
             background-color: #3498db;
             color: #fff;
             border: none;
             padding: 10px 15px;
-            margin: 5px;
+            margin: 5px 0;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
+            width: 100%;
+            max-width: 200px;
         }
 
         button:hover {
@@ -127,7 +136,7 @@
 <div>
     <h1>Tense identification</h1>
 
-    <div>
+    <div class="button-container">
         <button onclick="setTense('Past')">Past</button>
         <button onclick="setTense('Present')">Present</button>
         <button onclick="setTense('Future')">Future</button>
