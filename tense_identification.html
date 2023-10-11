@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tense Identification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFD1DC; /* Light pink background */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        div {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        .modal-content h2 {
+            color: #3498db;
+            text-align: center;
+            margin-top: 0;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover, .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 90%;
+            }
+
+            button {
+                padding: 15px 20px;
+                font-size: 1.1em;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            label {
+                font-size: 1.2em;
+            }
+
+            .close {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div>
+    <h1>Tense identification</h1>
+
+    <div>
+        <button onclick="setTense('Past')">Past</button>
+        <button onclick="setTense('Present')">Present</button>
+        <button onclick="setTense('Future')">Future</button>
+    </div>
+
+    <div id="dsp" class="hidden">
+        <label>Does it have a starting point?</label>
+        <button onclick="setDSP('Yes')">Yes</button>
+        <button onclick="setDSP('No')">No</button>
+    </div>
+
+    <div id="iih" class="hidden">
+        <label>Is it happening? (...ing)</label>
+        <button onclick="setIIH('Yes')">Yes</button>
+        <button onclick="setIIH('No')">No</button>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <h2>With love from Krishna</h2>
+        <span class="close">&times;</span>
+        <p id="modalText"></p>
+    </div>
+</div>
+
+<script>
+    let tense = '';
+    let dsp = '';
+    let iih = '';
+
+    function setTense(value) {
+        tense = value;
+        document.getElementById('dsp').style.display = 'block';
+    }
+
+    function setDSP(value) {
+        dsp = value;
+        document.getElementById('iih').style.display = 'block';
+    }
+
+    function setIIH(value) {
+        iih = value;
+        showResult();
+    }
+
+    function showResult() {
+        let result = '';
+
+        switch (tense) {
+            case 'Past':
+                if (dsp === 'No' && iih === 'No') result = 'Simple Past';
+                if (dsp === 'No' && iih === 'Yes') result = 'Past Continuous';
+                if (dsp === 'Yes' && iih === 'No') result = 'Past Perfect';
+                if (dsp === 'Yes' && iih === 'Yes') result = 'Past Perfect Continuous';
+                break;
+            case 'Present':
+                if (dsp === 'No' && iih === 'No') result = 'Simple Present';
+                if (dsp === 'No' && iih === 'Yes') result = 'Present Continuous';
+                if (dsp === 'Yes' && iih === 'No') result = 'Present Perfect';
+                if (dsp === 'Yes' && iih === 'Yes') result = 'Present Perfect Continuous';
+                break;
+            case 'Future':
+                if (dsp === 'No' && iih === 'No') result = 'Simple Future';
+                if (dsp === 'No' && iih === 'Yes') result = 'Future Continuous';
+                if (dsp === 'Yes' && iih === 'No') result = 'Future Perfect';
+                if (dsp === 'Yes' && iih === 'Yes') result = 'Future Perfect Continuous';
+                break;
+        }
+
+        document.getElementById('modalText').innerText = result;
+        showModal();
+    }
+
+    function showModal() {
+        var modal = document.getElementById("myModal");
+        modal.style.display = "block";
+
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function() {
+            modal.style.display = "none";
+            location.reload(); // This will refresh the page
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+                location.reload(); // This will refresh the page
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
